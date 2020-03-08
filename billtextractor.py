@@ -7,26 +7,32 @@ import xlwt
 import re
 import glob
 import numpy
+import os
 pytesseract.pytesseract.tesseract_cmd=r'C:\Program Files\Tesseract-OCR\tesseract'
 timepat=re.compile('\d{1,2}\:\d{1,2}\s*(AM|PM|am|pm)*')
 
 datpat4=re.compile('((\d\d)(\s|\/|-)((\w{3})|(\d{2}))(\s|\/|-)(\d{2,4}\s))|(\w{3}(\s|\')\d{2}\s\d{4})')
 
-image = Image.open("C:/Users/HEMANT/Training Data Set/Fun City/1.jpg")
+image = Image.open("C:/Users/HEMANT/Training Data Set/Burger King/1.jpg")
 #display(image)
 s=pytesseract.image_to_string(image)
     #print("Image ",fc," ",pytesseract.image_to_osd(image))
 x=s.splitlines()
 datser=re.search(datpat4,s) 
 timser=re.search(timepat,s) 
-print("\nDate:"+re.search(datpat4,s).group()+"\nTime:"+re.search(timepat,s).group())
+#fprint("\nDate:"+re.search(datpat4,s).group()+"\nTime:"+re.search(timepat,s).group())
 datetime=""
 datetime+=str(re.search(datpat4,s).group())[:-1] +"  "+str(re.search(timepat,s).group())
-datetime#
-print(datetime)
-
-store_name = x[0]
-store_address = "".join(x[1:4])
+#datetime#
+#print(datetime)
+y=0
+if str(x[0]).find("INVOICE")==-1:
+    y=0
+else:
+    y=1
+store_name = x[y]
+store_address = "".join(x[y+1:y+4])
+    
 date_keywords = ["Date","Purchase Date","Time"]
 invoice_keywords = ["Bill No","Invoice:","Invoice :","Invoice No:","Invoice No :","Invoice No", "ill No"]
 invoice_num,amount,date,time = "","","",""
@@ -77,7 +83,7 @@ for i in range(4,len(x)):
             if amount != "":
                 item_flag = 0    
 
-print(s)
+#print(s)
 det=xlwt.Workbook()
 style0 = xlwt.easyxf('font: name Times New Roman, color-index black, bold off',num_format_str='#,##0.00')
 ws=det.add_sheet("Details Sheet 1")
@@ -93,4 +99,11 @@ ws.write(4,0,'Total Bill Amount',style0)
 ws.write(4,1,str(amount),style0)
 ws.write(5,0,'Items',style0)
 ws.write(5,1,items,style0)
-det.save(store_name+".xls")
+nam=store_name.replace('.',"")
+nam2=nam.replace(' ',"")
+print(nam2)
+det.save(nam+".xls")
+fname=""
+fname+=store_name+".xls"
+comm="start excel.exe "+nam2+".xls"
+#os.system(comm)
