@@ -1,10 +1,15 @@
-# Foobar
+# Extracting data from bills/invoices
 
 Packages used:
+
  pytesseract – For extracting text from images and perform OCR operations
- tesseract-OCR – Tesseract is an optical character recognition engine for various operating systems. It is free software, released under the Apache License, Version 2.0,
- regex – To identify patterns in text
- xlwt – generate spreadsheet files compatible with Microsoft Excel versions 95 to 2003
+
+ tesseract-OCR – Tesseract is an optical character recognition engine for various operating systems. It is free software, released under the Apache License, Version 2.0.
+
+ regex – To identify patterns in text.
+
+ xlwt – generate spreadsheet files compatible with Microsoft Excel versions 95 to 2003.
+
  opencv –openCV (Open Source Computer Vision Library) is an open source computer vision and machine learning software library.
 
 
